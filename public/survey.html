@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Friend Finder</title>
+    <!-- external links (bootstrap and jQuery) -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Survey Questions</h2>
+        <hr>
+        <br>
+
+        <h2>About You</h2>
+        <h3>Name</h3>
+        <input type="text" id="name" class="keyInfo" required>
+
+        <h3>Photo (Please submit a link)</h3>
+        <input type="text" id="photo" class="keyInfo" required>
+        <hr>
+        <br>
+        <h3><strong>Question 1</strong></h3>
+        <h4>Favorite workout</h4>
+        <select class="surveyAnswer" id="q1">
+            <option value=""></option>
+            <option value="1">1 Yoga</option>
+            <option value="2">2 </option>
+            <option value="3">3 </option>
+            <option value="4">4 </option>
+            <option value="5">5 Crossfit</option>
+        </select>
+
+        <h3><strong>Question 2</strong></h3>
+        <h4>If you go out and grab a drink, you will order</h4>
+        <select class="surveyAnswer" id="q2">
+            <option value=""></option>
+            <option value="1">1 Hard Seltzer</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5 Whiskey</option>
+        </select>
+
+
+        <h3><strong>Question 3</strong></h3>
+        <h4>Food you order at a bar</h4>
+        <select class="surveyAnswer" id="q3">
+            <option value=""></option>
+            <option value="1">1 Salad</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5 Burger</option>
+        </select>
+
+
+        <h3><strong>Question 4</strong></h3>
+        <h4>On a Sunday, you are watching </h4>
+        <select class="surveyAnswer" id="q4">
+            <option value=""></option>
+            <option value="1">1 News</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5 Football</option>
+        </select>
+
+
+        <h3><strong>Question 5</strong></h3>
+        <h4>Avengers is on for the 1000th time. You </h4>
+        <select class="surveyAnswer" id="q5">
+            <option value=""></option>
+            <option value="1">1 Turn it off</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5 ofcourse you watch it</option>
+        </select>
+
+
+        <h3><strong>Question 6</strong></h3>
+        <h4>On a Friday night you want to</h4>
+        <select class="surveyAnswer" id="q6">
+            <option value=""></option>
+            <option value="1">1 Beer Pong</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5 Read a book</option>
+        </select>
+
+
+
+        <hr>
+        <br>
+        <button type="submit" class="btn btn-primary btn-lg btn-block" id="submit"><i class="fa fa-check-circle"
+                aria-hidden="true"></i>
+            Submit</button>
+
+
+        <br>
+        <footer class="footer">
+            <a href="/api/friends.js" class="card-link">Friend List API</a>
+            <a href="https://github.com/friedla21/friend-finder" class="card-link">GitHub link</a>
+        </footer>
+    </div>
+    <!-- model -->
+    <div id="results-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Your best friend!</h4>
+                </div>
+                <div class="modal-body">
+                    <h5 id="friendName"></h5>
+                    <img id="friendPic" src="" alt="They didn't put a photo">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script>
+
+        $("#submit").on("click", function (event) {
+            event.preventDefault();
+
+            function validateForm() {
+                var isValid = true;
+                $(".keyInfo").each(function () {
+                    if ($(this).val() === "") {
+                        isValid = false;
+                    }
+                });
+                $(".surveyAnswer").each(function () {
+                    if ($(this).val() === "") {
+                        isValid = false;
+                    }
+                });
+                return isValid;
+            }
+            if (validateForm()) {
+                var newFriend = {
+                    name: $("#name").val(),
+                    photo: $("#photo").val(),
+                    scores: [
+                        $("#q1").val(),
+                        $("#q2").val(),
+                        $("#q3").val(),
+                        $("#q4").val(),
+                        $("#q5").val(),
+                        $("#q6").val(),
+                        $("#q7").val(),
+                        $("#q8").val(),
+                        $("#q9").val(),
+                        $("#q10").val()
+                    ]
+                };
+
+                $.post("/api/friends", newFriend, function (data) {
+                    $("#friendName").text(data.name);
+                    $("#friendPic").attr("src", data.photo);
+
+                    $("#results-modal").modal("show");
+
+                })
+            } else {
+                alert("You missed something, please make sure everything is completed!")
+            }
+
+        });
+
+
+
+
+    </script>
+</body>
+
+</html>
